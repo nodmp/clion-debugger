@@ -1,18 +1,21 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.nodmp.cliondebugger</id>
-    <name>IntelliJ Platform Plugin clion-debugger</name>
-    <vendor>nodmp</vendor>
+    <name>Clion Debugger</name>
+    <vendor>Qinglin</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.clion</depends>
+    <depends>com.intellij.cidr.debugger</depends>
+
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.nodmp.cliondebugger.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.nodmp.cliondebugger.services.MyProjectService"/>
+        <configurationType implementation="com.github.nodmp.cliondebugger.BugEaterConfigurationType"/>
+        <fileType name="BugEaterCommands" implementationClass="com.github.nodmp.cliondebugger.BugEaterFileType"
+                  fieldName="INSTANCE" language="BUG-EATER" extensions="BugEaterCommandsFileTypeExtension"/>
+        <!-- Add your extensions here -->
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.nodmp.cliondebugger.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="cidr.debugger">
+        <customDebuggerProvider implementation="com.github.nodmp.cliondebugger.BugEaterDebuggerProvider"/>
+    </extensions>
 </idea-plugin>
